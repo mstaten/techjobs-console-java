@@ -7,10 +7,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by LaunchCode
@@ -44,7 +41,8 @@ public class JobData {
             }
         }
 
-        return values;
+        Collections.sort(values);
+        return values;  // alphabetize HERE ??
     }
 
     public static ArrayList<HashMap<String, String>> findAll() {
@@ -52,7 +50,9 @@ public class JobData {
         // load data, if not already loaded
         loadData();
 
-        return allJobs;
+        // want to return copy of allJobs instead of returning allJobs itself (don't return static property, man)
+        ArrayList<HashMap<String, String>> allJobsCopy = new ArrayList<HashMap<String, String>>(allJobs);
+        return allJobsCopy;
     }
 
     /**
