@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by LaunchCode
@@ -61,7 +62,7 @@ public class JobData {
      * For example, searching for employer "Enterprise" will include results
      * with "Enterprise Holdings, Inc".
      *
-     * @param column   Column that should be searched.
+     * @param column Column that should be searched.
      * @param value Value of the field to search for
      * @return List of all jobs matching the criteria
      */
@@ -76,12 +77,50 @@ public class JobData {
 
             String aValue = row.get(column);
 
-            if (aValue.contains(value)) {
+            if (aValue.toLowerCase().contains(value.toLowerCase())) {
                 jobs.add(row);
             }
         }
 
         return jobs;
+    }
+
+    /**
+     * Search for value within each column
+     *
+     * Returns results of searching the jobs data by key/value, using
+     * inclusion of the search term.
+     *
+     * @param value Value of the field to search for
+     * @return List of all jobs matching the criteria
+     */
+    public static ArrayList<HashMap<String, String>> findByValue(String value) {
+
+        // load data, if not already loaded
+        loadData();
+
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        // iterate over each job (aka a row)
+        for (HashMap<String, String> row : allJobs) {
+
+            // iterate over each entry (aka a column)
+            for (Map.Entry<String, String> column : row.entrySet()) {
+
+                // if column-value contains search term
+                if (column.getValue().toLowerCase().contains(value.toLowerCase())) {
+
+                    // check whether job is already added
+                    if (!jobs.contains(row)) {
+                        jobs.add(row);
+                    }
+                }
+
+            }
+        }
+
+        return jobs;
+
     }
 
     /**

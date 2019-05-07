@@ -62,7 +62,7 @@ public class TechJobs {
                 String searchTerm = in.nextLine();
 
                 if (searchField.equals("all")) {
-                    System.out.println("Search all fields not yet implemented.");
+                    printJobs(JobData.findByValue(searchTerm));
                 } else {
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
                 }
@@ -70,7 +70,7 @@ public class TechJobs {
         }
     }
 
-    // ﻿Returns the key of the selected item from the choices Dictionary
+    // Returns the key of the selected item from the choices Dictionary
     private static String getUserSelection(String menuHeader, HashMap<String, String> choices) {
 
         Integer choiceIdx;
@@ -113,15 +113,10 @@ public class TechJobs {
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
 
         // iterate over the ArrayList of HashMaps (each HashMap is a job)
-        for (int i = 0; i < someJobs.size(); i++) {
-            HashMap<String, String> currentJob = someJobs.get(i);
+        for (HashMap<String, String> currentJob : someJobs) {
 
             System.out.println("*****");
 
-            // each HashMap is a job
-            // each entry of the HashMap(:job) is a row that
-            // represents a key/value pair of column/description
-            // for ex, position type / Data Scientist; location / St. Louis
             for (Map.Entry<String, String> aRow : currentJob.entrySet()) {
                 // each entry is a key,value pair of column,description
                 System.out.println(aRow.getKey() + ": " + aRow.getValue());
